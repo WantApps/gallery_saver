@@ -41,7 +41,8 @@ public class SwiftGallerySaverPlugin: NSObject, FlutterPlugin {
         let args = call.arguments as? Dictionary<String, Any>
         let path = args![self.path] as! String
         let albumName = args![self.albumName] as? String
-        _saveMediaToAlbum(path, mediaType, albumName, result)
+//        _saveMediaToAlbum(path, mediaType, albumName, result)
+        saveFile(path, mediaType, nil, result)
     }
     
     private func _saveMediaToAlbum(_ imagePath: String, _ mediaType: MediaType, _ albumName: String?,
@@ -60,28 +61,28 @@ public class SwiftGallerySaverPlugin: NSObject, FlutterPlugin {
         UIImageWriteToSavedPhotosAlbum(savableImage, responder, #selector(SaveImageResultHandler.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
-//    private func saveFile(_ filePath: String, _ mediaType: MediaType, _ album: PHAssetCollection?,
-//                          _ flutterResult: @escaping FlutterResult) {
-//        let url = URL(fileURLWithPath: filePath)
-//        PHPhotoLibrary.shared().performChanges({
-//            let assetCreationRequest = mediaType == .image ?
-//            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
-//            : PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url);
-//            if (album != nil) {
-//                guard let assetCollectionChangeRequest = PHAssetCollectionChangeRequest(for: album!),
-//                      let createdAssetPlaceholder = assetCreationRequest?.placeholderForCreatedAsset else {
-//                    return
-//                }
-//                assetCollectionChangeRequest.addAssets(NSArray(array: [createdAssetPlaceholder]))
-//            }
-//        }) { (success, error) in
-//            if success {
-//                flutterResult(true)
-//            } else {
-//                flutterResult(false)
-//            }
-//        }
-//    }
+    private func saveFile(_ filePath: String, _ mediaType: MediaType, _ album: PHAssetCollection?,
+                          _ flutterResult: @escaping FlutterResult) {
+        let url = URL(fileURLWithPath: filePath)
+        PHPhotoLibrary.shared().performChanges({
+            let assetCreationRequest = mediaType == .image ?
+            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
+            : PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url);
+            if (album != nil) {
+                guard let assetCollectionChangeRequest = PHAssetCollectionChangeRequest(for: album!),
+                      let createdAssetPlaceholder = assetCreationRequest?.placeholderForCreatedAsset else {
+                    return
+                }
+                assetCollectionChangeRequest.addAssets(NSArray(array: [createdAssetPlaceholder]))
+            }
+        }) { (success, error) in
+            if success {
+                flutterResult(true)
+            } else {
+                flutterResult(false)
+            }
+        }
+    }
 //
 //    private func fetchAssetCollectionForAlbum(_ albumName: String) -> PHAssetCollection? {
 //        let fetchOptions = PHFetchOptions()

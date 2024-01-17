@@ -21,8 +21,7 @@ public class SwiftGallerySaverPlugin: NSObject, FlutterPlugin {
         if call.method == "saveImage" {
             self.saveMedia(call, .image, result)
         } else if call.method == "saveVideo" {
-            result(FlutterMethodNotImplemented)
-//            self.saveMedia(call, .video, result)
+            self.saveMedia(call, .video, result)
         } else {
             result(FlutterMethodNotImplemented)
         }
@@ -41,7 +40,9 @@ public class SwiftGallerySaverPlugin: NSObject, FlutterPlugin {
         let args = call.arguments as? Dictionary<String, Any>
         let path = args![self.path] as! String
         let albumName = args![self.albumName] as? String
-//        _saveMediaToAlbum(path, mediaType, albumName, result)
+//        if (mediaType == .video) {
+//            _saveMediaToAlbum(path, mediaType, albumName, result)
+//        }
         saveFile(path, mediaType, nil, result)
     }
     

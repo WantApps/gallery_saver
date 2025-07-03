@@ -9,7 +9,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 
 class GallerySaverPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
@@ -20,8 +19,6 @@ class GallerySaverPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(binding.binaryMessenger, "gallery_saver")
         channel.setMethodCallHandler(this)
-
-
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
